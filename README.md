@@ -3,18 +3,20 @@ author:   André Dietrich
 
 email:    andre.dietrich@ovgu.de
 
-version:  0.0.1
+version:  0.0.2
 
 language: en
 
 narrator: US English Female
 
-comment:  Just a simple Processing.js template.
+comment:  Just a simple Processing.js template for LiaScript.
 
 script:   https://cdnjs.cloudflare.com/ajax/libs/processing.js/1.6.6/processing.min.js
 
 
-@processing
+@Processing.eval: @Processing._eval_(@uid)
+
+@Processing._eval_
 <script>
 let container = document.getElementById('sketch-container-@0');
 
@@ -39,34 +41,159 @@ let sketch = Processing.compile(`@input`);
 
 window["processing"]["@0"] = new Processing(canvas, sketch);
 window["running"] = "@0";
+
+"LIA: stop"
 </script>
 
-<div id="sketch-container-@0"></div>
+<div id="sketch-container-@0" class="persistent"></div>
 
-<script>
-if(window["running"]) {
+<script> window.stop_processing() </script>
+@end
+
+
+@onload
+window.stop_processing = function() {
+  if(window["running"]) {
     window["processing"][window["running"]].exit();
     document.getElementById("sketch-container-"+window["running"]).innerHTML = "";
 
     window["running"] = null;
+  }
 }
-</script>
 @end
-
 -->
 
 # Processing.js Template
 
+
+                         --{{0}}--
 A simple template for executing Processing.js in [LiaScript](https://LiaScript.github.io). You can use it to build more sophisticated Tutorials ...
 Just check out, how this File gets rendered by LiaScript:
 
-Github:    https://github.com/liaScript/processing_template
+__Try it on LiaScript:__
 
-LiaScript: https://liascript.github.io/course/?https://raw.githubusercontent.com/liaScript/processing_template/master/README.md#1
+https://liascript.github.io/course/?https://raw.githubusercontent.com/liaScript/processing_template/master/README.md
+
+__See the project on Github:__
+
+https://github.com/liaScript/processing_template
+
+                         --{{1}}--
+There are three ways to use this template. The easiest way is to use the
+`import` statement and the url of the raw text-file of the master branch or any
+other branch or version. But you can also copy the required functionionality
+directly into the header of your Markdown document, see therefor the
+[Implementation](#3). And of course, you could also clone this project and change
+it, as you wish.
+
+                           {{1}}
+1. Load the macros via
+
+   `import: https://raw.githubusercontent.com/liaScript/processing_template/master/README.md`
+
+2. Copy the definitions into your Project
+
+3. Clone this repository on GitHub
 
 
-``` cpp Demo
+## `@Processing.eval`
 
+                         --{{0}}--
+Currently there is only one macro, simply add `@Processing.eval` to the end of
+your Processing code-block to make it executable. Since there is only one
+"Processing-thread", your program will run until you restart it, go to another
+section, or start another program.
+
+
+```cpp
+void setup() {
+  size(480, 120);
+}
+
+void draw() {
+  if (mousePressed) {
+    fill(0);
+  } else {
+    fill(255);
+  }
+  ellipse(mouseX, mouseY, 80, 80);
+}
+```
+@Processing.eval
+
+
+## Implementation
+
+                         --{{0}}--
+There are two macros, `@Processing.eval` and a hidden one, which actually defines all code required. The function defined in `@onload` is used to stop the currently running thread, if the user goes to another slide.
+
+```html
+script: https://cdnjs.cloudflare.com/ajax/libs/processing.js/1.6.6/processing.min.js
+
+@Processing.eval: @Processing._eval_(@uid)
+
+@Processing._eval_
+<script>
+let container = document.getElementById('sketch-container-@0');
+
+container.innerHTML = "";
+
+let canvas = document.createElement('canvas');
+canvas.id = 'sketch-@0';
+
+container.appendChild(canvas);
+
+if(!window["processing"]){
+    window["processing"] = {};
+    window["running"] = null;
+}
+
+if(window["running"]) {
+  window["processing"][window["running"]].exit();
+}
+
+let sketch = Processing.compile(`@input`);
+
+window["processing"]["@0"] = new Processing(canvas, sketch);
+window["running"] = "@0";
+
+"LIA: stop"
+</script>
+
+<div id="sketch-container-@0" class="persistent"></div>
+
+<script> window.stop_processing() </script>
+@end
+
+@onload
+window.stop_processing = function() {
+  if(window["running"]) {
+    window["processing"][window["running"]].exit();
+    document.getElementById("sketch-container-"+window["running"]).innerHTML = "";
+
+    window["running"] = null;
+  }
+}
+@end
+```
+
+                         --{{1}}--
+If you want to minimize loading effort in your LiaScript project, you can also
+copy this code and paste it into your main comment header, see the code in the
+raw file of this document.
+
+                           {{1}}
+https://raw.githubusercontent.com/liaScript/processing_template/master/README.md
+
+
+## Demos
+
+> Because it is so beautiful, I added some more examples, to demonstrate how
+> beautiful Processing.js is ...
+
+### Getting started
+
+``` cpp
 // Global variables
 float radius = 50.0;
 int X, Y;
@@ -86,57 +213,30 @@ void setup(){
 
 // Main draw loop
 void draw(){
-
   radius = radius + sin( frameCount / 4 );
-
   // Track circle to new destination
   X+=(nX-X)/delay;
   Y+=(nY-Y)/delay;
-
   // Fill canvas grey
   background( 100 );
-
   // Set fill-color to blue
   fill( 0, 121, 184 );
-
   // Set stroke-color white
   stroke(255);
-
   // Draw circle
-  ellipse( X, Y, radius, radius );                  
+  ellipse( X, Y, radius, radius );
 }
-
 
 // Set circle's next destination
 void mouseMoved(){
   nX = mouseX;
   nY = mouseY;  
 }
-
 ```
-@processing(example_1)
-
-## gettingstarted
+@Processing.eval
 
 
-```cpp
-void setup() {
-  size(480, 120);
-}
-
-void draw() {
-  if (mousePressed) {
-    fill(0);
-  } else {
-    fill(255);
-  }
-  ellipse(mouseX, mouseY, 80, 80);
-}
-```
-@processing(gettingstarted)
-
-
-## pvector
+### PVector
 
 ``` cpp
 float x = 100;
@@ -173,9 +273,9 @@ void draw() {
   ellipse(x,y,16,16);
 }
 ```
-@processing(gettingstarted)
+@Processing.eval
 
-## Abstract
+### Abstract
 
 ``` cpp
 int DONT_INTERSECT = 0;
@@ -294,11 +394,10 @@ boolean same_sign(float a, float b){
   return (( a * b) >= 0);
 }
 ```
-@processing(example_2)
+@Processing.eval
 
 
-
-## ABSTRACT01js
+### ABSTRACT01js
 
 ``` cpp ABSTRACT01js
 int num,cnt,px,py,fadeInterval;
@@ -640,4 +739,4 @@ class Vec2D {
   }
 }
 ```
-@processing(ABSTRACT01js)
+@Processing.eval
