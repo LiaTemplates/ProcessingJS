@@ -65,7 +65,6 @@ window.stop_processing = function() {
 
 # Processing.js Template
 
-
                          --{{0}}--
 A simple template for executing Processing.js in [LiaScript](https://LiaScript.github.io). You can use it to build more sophisticated Tutorials ...
 Just check out, how this File gets rendered by LiaScript:
