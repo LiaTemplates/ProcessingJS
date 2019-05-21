@@ -63,19 +63,21 @@ window.stop_processing = function() {
 @end
 -->
 
-# Processing.js Template
+# ProcessingJS - Template
 
                          --{{0}}--
-A simple template for executing Processing.js in [LiaScript](https://LiaScript.github.io). You can use it to build more sophisticated Tutorials ...
-Just check out, how this File gets rendered by LiaScript:
+A simple template for executing Processing.js in
+[LiaScript](https://LiaScript.github.io). You can use it to build more
+sophisticated Tutorials ... Just check out, how this File gets rendered by
+LiaScript:
 
 __Try it on LiaScript:__
 
-https://liascript.github.io/course/?https://raw.githubusercontent.com/liaScript/processing_template/master/README.md
+https://liascript.github.io/course/?https://raw.githubusercontent.com/liaTemplates/processingjs/master/README.md
 
 __See the project on Github:__
 
-https://github.com/liaScript/processing_template
+https://github.com/liaTemplates/processingjs
 
                          --{{1}}--
 There are three ways to use this template. The easiest way is to use the
@@ -88,7 +90,7 @@ it, as you wish.
                            {{1}}
 1. Load the macros via
 
-   `import: https://raw.githubusercontent.com/liaScript/processing_template/master/README.md`
+   `import: https://raw.githubusercontent.com/liaTemplates/processingjs/master/README.md`
 
 2. Copy the definitions into your Project
 
@@ -181,14 +183,14 @@ If you want to minimize loading effort in your LiaScript project, you can also
 copy this code and paste it into your main comment header, see the code in the
 raw file of this document.
 
-                           {{1}}
-https://raw.githubusercontent.com/liaScript/processing_template/master/README.md
+{{1}} https://raw.githubusercontent.com/liaTemplates/processingjs/master/README.md
 
 
 ## Demos
 
 > Because it is so beautiful, I added some more examples, to demonstrate how
 > beautiful Processing.js is ...
+
 
 ### Getting started
 
