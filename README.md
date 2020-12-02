@@ -34,7 +34,6 @@ if(!window["processing"]){
 
 if(window["running"]) {
   window["processing"][window["running"]].exit();
-
 }
 
 let sketch = Processing.compile(`@input`);
@@ -45,22 +44,24 @@ window["running"] = "@0";
 "LIA: stop"
 </script>
 
-<div id="sketch-container-@0" class="persistent"></div>
+<div id="sketch-container-@0" class="container"></div>
 
-<script> window.stop_processing() </script>
-@end
+<script>
+let rem = document.getElementsByClassName("container")
 
+for( let i=0; i< rem.length; i++ )
+  rem[i].innerHTML = ""
 
-@onload
-window.stop_processing = function() {
-  if(window["running"]) {
-    window["processing"][window["running"]].exit();
-    document.getElementById("sketch-container-"+window["running"]).innerHTML = "";
-
-    window["running"] = null;
-  }
+if(window["running"]) {
+  window["processing"][window["running"]].exit();
+  window["running"] = null;
 }
+
+console.log("delete content")
+</script>
 @end
+
+
 -->
 
 # ProcessingJS - Template
@@ -209,7 +210,7 @@ void setup(){
   X = width / 2;
   Y = height / 2;
   nX = X;
-  nY = Y;  
+  nY = Y;
 }
 
 // Main draw loop
@@ -231,7 +232,7 @@ void draw(){
 // Set circle's next destination
 void mouseMoved(){
   nX = mouseX;
-  nY = mouseY;  
+  nY = mouseY;
 }
 ```
 @Processing.eval
@@ -434,7 +435,7 @@ void draw() {
   if(frameCount%fadeInterval==0) {
     fill(255,255,255, fadeAmount);
     rect(width/2,height/2, width,height);
-  }  
+  }
 
   updateAuto();
 
@@ -485,7 +486,7 @@ class AutoMover {
   void reinit() {
     ageGoal=(int)random(150,350);
     if(random(100)>95) ageGoal*=1.25;
-    age=-(int)random(50,150);    
+    age=-(int)random(50,150);
     pos=new Vec2D(random(width-100)+50,random(height-100)+50);
 
 
@@ -493,7 +494,7 @@ class AutoMover {
     type=0;
     if(random(100)>60) type=1;
 
-    interval=(int)random(2,5);    
+    interval=(int)random(2,5);
     if(type==1) {
       interval=1;
       dir=degrees(atan2(-(pos.y-height/2),pos.x-width/2));
@@ -534,7 +535,7 @@ class AutoMover {
           dirCnt=random(20,35);
         }
       }
-      if(age%interval==0) newParticle();   
+      if(age%interval==0) newParticle();
       if(pos.x<-50 || pos.x>width+50 ||
         pos.y<-50 || pos.y>height+50) reinit();
     }
